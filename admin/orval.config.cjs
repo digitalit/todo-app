@@ -8,7 +8,7 @@ module.exports = {
             schemas: './src/lib/api/gen/model',            // Separate directory for TypeScript types
             client: 'axios',                               // Use axios for HTTP requests
             mode: 'split',                                 // Generate separate files per endpoint
-            clean: true,                                   // Clean output directory before generating
+            clean: true,                                   // Clean the output directory before generating
             baseUrl: 'http://localhost:8000'               // Base URL for API requests
         }
     }

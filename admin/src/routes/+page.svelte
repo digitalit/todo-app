@@ -12,7 +12,7 @@
     async function loadTodos() {
         loading = true;
         try {
-            const response = await api.listTodos();
+            const response = await api.adminListTodos();
             todos = response.data;
         } catch (error) {
             console.error('Failed to load todos:', error);
@@ -25,7 +25,7 @@
         if (!newTodoTitle.trim()) return;
 
         try {
-            const response = await api.createTodo({
+            const response = await api.adminCreateTodo({
                 title: newTodoTitle,
                 completed: false
             });
@@ -38,12 +38,10 @@
 
     async function toggleTodo(todo: Todo) {
         try {
-            const response = await api.updateTodo(todo.id, {
+            const response = await api.adminUpdateTodo(todo.id, {
                 completed: !todo.completed
             });
-            todos = todos.map((t) =>
-                t.id === todo.id ? response.data : t
-            );
+            todos = todos.map((t) => (t.id === todo.id ? response.data : t));
         } catch (error) {
             console.error('Failed to update todo:', error);
         }
@@ -51,7 +49,7 @@
 
     async function removeTodo(id: number) {
         try {
-            await api.deleteTodo(id);
+            await api.adminDeleteTodo(id);
             todos = todos.filter((t) => t.id !== id);
         } catch (error) {
             console.error('Failed to delete todo:', error);
@@ -71,9 +69,9 @@
                 type="text"
                 bind:value={newTodoTitle}
                 placeholder="What needs to be done?"
-                onkeydown={(e) => e.key === 'Enter' && addTodo()}
+                on:keydown={(e) => e.key === 'Enter' && addTodo()}
         />
-        <button onclick={addTodo}>Add</button>
+        <button on:click={addTodo}>Add</button>
     </div>
 
     {#if loading}
@@ -87,13 +85,10 @@
                     <input
                             type="checkbox"
                             checked={todo.completed}
-                            onchange={() => toggleTodo(todo)}
+                            on:change={() => toggleTodo(todo)}
                     />
                     <span>{todo.title}</span>
-                    <button
-                            class="delete"
-                            onclick={() => removeTodo(todo.id)}
-                    >
+                    <button class="delete" on:click={() => removeTodo(todo.id)}>
                         ×
                     </button>
                 </li>

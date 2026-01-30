@@ -8,4 +8,5 @@
 export interface TodoUpdate {
   title?: string | null;
   completed?: boolean | null;
+  priority?: string | null;
 }

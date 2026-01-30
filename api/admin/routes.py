@@ -1,58 +1,43 @@
-# backend/main.py
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from models import Todo, TodoCreate, TodoUpdate
+from fastapi import APIRouter, HTTPException
 
-app = FastAPI()
+from api.admin.models import Todo, TodoCreate, TodoUpdate
 
-# Configure CORS for local development
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Vite dev server
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+router = APIRouter()
 
 # In-memory storage (replace with a database in production)
 todos: dict[int, Todo] = {}
 next_id = 1
 
 
-@app.get("/todos", response_model=list[Todo], operation_id="listTodos")
+@router.get("/todos", response_model=list[Todo], operation_id="adminListTodos")
 def list_todos():
-    """Get all todos"""
     return list(todos.values())
 
 
-@app.post("/todos", response_model=Todo, operation_id="createTodo")
+@router.post("/todos", response_model=Todo, operation_id="adminCreateTodo")
 def create_todo(todo_data: TodoCreate):
-    """Create a new todo"""
     global next_id
 
     todo = Todo(
         id=next_id,
         title=todo_data.title,
         completed=todo_data.completed,
-        priority=todo_data.priority
+        priority=todo_data.priority,
     )
     todos[next_id] = todo
     next_id += 1
-
     return todo
 
 
-@app.get("/todos/{todo_id}", response_model=Todo, operation_id="getTodo")
+@router.get("/todos/{todo_id}", response_model=Todo, operation_id="adminGetTodo")
 def get_todo(todo_id: int):
-    """Get a specific todo"""
     if todo_id not in todos:
         raise HTTPException(status_code=404, detail="Todo not found")
     return todos[todo_id]
 
 
-@app.put("/todos/{todo_id}", response_model=Todo, operation_id="updateTodo")
+@router.put("/todos/{todo_id}", response_model=Todo, operation_id="adminUpdateTodo")
 def update_todo(todo_id: int, todo_data: TodoUpdate):
-    """Update a todo"""
     if todo_id not in todos:
         raise HTTPException(status_code=404, detail="Todo not found")
 
@@ -68,10 +53,8 @@ def update_todo(todo_id: int, todo_data: TodoUpdate):
     return todo
 
 
-@app.delete("/todos/{todo_id}", status_code=204, operation_id="deleteTodo")
+@router.delete("/todos/{todo_id}", status_code=204, operation_id="adminDeleteTodo")
 def delete_todo(todo_id: int):
-    """Delete a todo"""
     if todo_id not in todos:
         raise HTTPException(status_code=404, detail="Todo not found")
-
     del todos[todo_id]

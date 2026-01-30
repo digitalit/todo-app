@@ -1,11 +1,10 @@
-# backend/models.py
 from pydantic import BaseModel
 
 
 class TodoCreate(BaseModel):
     title: str
     completed: bool = False
-    priority: str = "medium"  # New field!
+    priority: str = "medium"
 
 
 class TodoUpdate(BaseModel):
