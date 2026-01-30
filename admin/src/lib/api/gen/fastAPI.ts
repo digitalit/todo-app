@@ -22,6 +22,17 @@ import type {
 
   export const getFastAPI = (axiosInstance: AxiosInstance = axios) => {
 /**
+ * @summary Health
+ */
+const wwwHealth = <TData = AxiosResponse<unknown>>(
+     options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.get(
+      `http://localhost:8000/health`,options
+    );
+  }
+
+/**
  * @summary List Todos
  */
 const adminListTodos = <TData = AxiosResponse<Todo[]>>(
@@ -80,20 +91,9 @@ const adminDeleteTodo = <TData = AxiosResponse<void>>(
   }
 
 /**
- * @summary Health
- */
-const publicHealth = <TData = AxiosResponse<unknown>>(
-     options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axiosInstance.get(
-      `http://localhost:8000/health`,options
-    );
-  }
-
-/**
  * @summary List Todos
  */
-const publicListTodos = <TData = AxiosResponse<Todo[]>>(
+const wwwListTodos = <TData = AxiosResponse<Todo[]>>(
      options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.get(
@@ -104,7 +104,7 @@ const publicListTodos = <TData = AxiosResponse<Todo[]>>(
 /**
  * @summary Create Todo
  */
-const publicCreateTodo = <TData = AxiosResponse<Todo>>(
+const wwwCreateTodo = <TData = AxiosResponse<Todo>>(
     todoCreate: TodoCreate, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.post(
@@ -116,7 +116,7 @@ const publicCreateTodo = <TData = AxiosResponse<Todo>>(
 /**
  * @summary Get Todo
  */
-const publicGetTodo = <TData = AxiosResponse<Todo>>(
+const wwwGetTodo = <TData = AxiosResponse<Todo>>(
     todoId: number, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.get(
@@ -127,7 +127,7 @@ const publicGetTodo = <TData = AxiosResponse<Todo>>(
 /**
  * @summary Update Todo
  */
-const publicUpdateTodo = <TData = AxiosResponse<Todo>>(
+const wwwUpdateTodo = <TData = AxiosResponse<Todo>>(
     todoId: number,
     todoUpdate: TodoUpdate, options?: AxiosRequestConfig
  ): Promise<TData> => {
@@ -140,7 +140,7 @@ const publicUpdateTodo = <TData = AxiosResponse<Todo>>(
 /**
  * @summary Delete Todo
  */
-const publicDeleteTodo = <TData = AxiosResponse<void>>(
+const wwwDeleteTodo = <TData = AxiosResponse<void>>(
     todoId: number, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.delete(
@@ -148,15 +148,15 @@ const publicDeleteTodo = <TData = AxiosResponse<void>>(
     );
   }
 
-return {adminListTodos,adminCreateTodo,adminGetTodo,adminUpdateTodo,adminDeleteTodo,publicHealth,publicListTodos,publicCreateTodo,publicGetTodo,publicUpdateTodo,publicDeleteTodo}};
+return {wwwHealth,adminListTodos,adminCreateTodo,adminGetTodo,adminUpdateTodo,adminDeleteTodo,wwwListTodos,wwwCreateTodo,wwwGetTodo,wwwUpdateTodo,wwwDeleteTodo}};
+export type WwwHealthResult = AxiosResponse<unknown>
 export type AdminListTodosResult = AxiosResponse<Todo[]>
 export type AdminCreateTodoResult = AxiosResponse<Todo>
 export type AdminGetTodoResult = AxiosResponse<Todo>
 export type AdminUpdateTodoResult = AxiosResponse<Todo>
 export type AdminDeleteTodoResult = AxiosResponse<void>
-export type PublicHealthResult = AxiosResponse<unknown>
-export type PublicListTodosResult = AxiosResponse<Todo[]>
-export type PublicCreateTodoResult = AxiosResponse<Todo>
-export type PublicGetTodoResult = AxiosResponse<Todo>
-export type PublicUpdateTodoResult = AxiosResponse<Todo>
-export type PublicDeleteTodoResult = AxiosResponse<void>
+export type WwwListTodosResult = AxiosResponse<Todo[]>
+export type WwwCreateTodoResult = AxiosResponse<Todo>
+export type WwwGetTodoResult = AxiosResponse<Todo>
+export type WwwUpdateTodoResult = AxiosResponse<Todo>
+export type WwwDeleteTodoResult = AxiosResponse<void>

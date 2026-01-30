@@ -4,13 +4,13 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
+    "dev-admin": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "generate": "npx orval --config orval.config.cjs"
+    "generate-admin": "npx orval --config orval.config.cjs"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^7.0.0",
