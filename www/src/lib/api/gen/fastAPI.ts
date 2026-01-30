@@ -28,7 +28,7 @@ const wwwHealth = <TData = AxiosResponse<unknown>>(
      options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.get(
-      `http://localhost:8000/health`,options
+      `http://localhost:8000/www/health`,options
     );
   }
 
@@ -97,7 +97,7 @@ const wwwListTodos = <TData = AxiosResponse<Todo[]>>(
      options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.get(
-      `http://localhost:8000/todos`,options
+      `http://localhost:8000/www/todos`,options
     );
   }
 
@@ -108,7 +108,7 @@ const wwwCreateTodo = <TData = AxiosResponse<Todo>>(
     todoCreate: TodoCreate, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.post(
-      `http://localhost:8000/todos`,
+      `http://localhost:8000/www/todos`,
       todoCreate,options
     );
   }
@@ -120,7 +120,7 @@ const wwwGetTodo = <TData = AxiosResponse<Todo>>(
     todoId: number, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.get(
-      `http://localhost:8000/todos/${todoId}`,options
+      `http://localhost:8000/www/todos/${todoId}`,options
     );
   }
 
@@ -132,7 +132,7 @@ const wwwUpdateTodo = <TData = AxiosResponse<Todo>>(
     todoUpdate: TodoUpdate, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.put(
-      `http://localhost:8000/todos/${todoId}`,
+      `http://localhost:8000/www/todos/${todoId}`,
       todoUpdate,options
     );
   }
@@ -144,7 +144,7 @@ const wwwDeleteTodo = <TData = AxiosResponse<void>>(
     todoId: number, options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.delete(
-      `http://localhost:8000/todos/${todoId}`,options
+      `http://localhost:8000/www/todos/${todoId}`,options
     );
   }
 
