@@ -71,7 +71,7 @@
                 placeholder="What needs to be done?"
                 on:keydown={(e) => e.key === 'Enter' && addTodo()}
         />
-        <button on:click={addTodo}>Add</button>
+        <button onclick={addTodo}>Add</button>
     </div>
 
     {#if loading}
@@ -88,7 +88,7 @@
                             on:change={() => toggleTodo(todo)}
                     />
                     <span>{todo.title}</span>
-                    <button class="delete" on:click={() => removeTodo(todo.id)}>
+                    <button class="delete" onclick={() => removeTodo(todo.id)}>
                         ×
                     </button>
                 </li>
