@@ -4,22 +4,22 @@ from api.www.models import Todo, TodoCreate, TodoUpdate
 
 router = APIRouter()
 
-# In-memory storage for public/www endpoints
+# In-memory storage for www endpoints
 todos: dict[int, Todo] = {}
 next_id = 1
 
 
-@router.get("/health", operation_id="publicHealth")
+@router.get("/health", operation_id="wwwHealth")
 def health():
     return {"status": "ok"}
 
 
-@router.get("/todos", response_model=list[Todo], operation_id="publicListTodos")
+@router.get("/todos", response_model=list[Todo], operation_id="wwwListTodos")
 def list_todos():
     return list(todos.values())
 
 
-@router.post("/todos", response_model=Todo, operation_id="publicCreateTodo")
+@router.post("/todos", response_model=Todo, operation_id="wwwCreateTodo")
 def create_todo(todo_data: TodoCreate):
     global next_id
 
@@ -34,14 +34,14 @@ def create_todo(todo_data: TodoCreate):
     return todo
 
 
-@router.get("/todos/{todo_id}", response_model=Todo, operation_id="publicGetTodo")
+@router.get("/todos/{todo_id}", response_model=Todo, operation_id="wwwGetTodo")
 def get_todo(todo_id: int):
     if todo_id not in todos:
         raise HTTPException(status_code=404, detail="Todo not found")
     return todos[todo_id]
 
 
-@router.put("/todos/{todo_id}", response_model=Todo, operation_id="publicUpdateTodo")
+@router.put("/todos/{todo_id}", response_model=Todo, operation_id="wwwUpdateTodo")
 def update_todo(todo_id: int, todo_data: TodoUpdate):
     if todo_id not in todos:
         raise HTTPException(status_code=404, detail="Todo not found")
@@ -58,7 +58,7 @@ def update_todo(todo_id: int, todo_data: TodoUpdate):
     return todo
 
 
-@router.delete("/todos/{todo_id}", status_code=204, operation_id="publicDeleteTodo")
+@router.delete("/todos/{todo_id}", status_code=204, operation_id="wwwDeleteTodo")
 def delete_todo(todo_id: int):
     if todo_id not in todos:
         raise HTTPException(status_code=404, detail="Todo not found")

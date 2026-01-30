@@ -9,6 +9,11 @@ todos: dict[int, Todo] = {}
 next_id = 1
 
 
+@router.get("/health", operation_id="wwwHealth")
+def health():
+    return {"status": "ok"}
+
+
 @router.get("/todos", response_model=list[Todo], operation_id="adminListTodos")
 def list_todos():
     return list(todos.values())

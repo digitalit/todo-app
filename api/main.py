@@ -9,7 +9,10 @@ app = FastAPI()
 # Configure CORS for local development
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Vite dev server
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5174",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -18,5 +21,5 @@ app.add_middleware(
 # Admin endpoints: /admin/...
 app.include_router(admin_router, prefix="/admin", tags=["admin"])
 
-# Public/www endpoints: /...
+# Www endpoints: /...
 app.include_router(www_router, tags=["www"])
