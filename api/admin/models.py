@@ -1,20 +1,11 @@
-from pydantic import BaseModel
+from api.admin.todos.models.todo_models import Todo, TodoCreate, TodoUpdate
+from api.admin.tasks.models.task_models import Task, TaskCreate, TaskUpdate
 
-
-class TodoCreate(BaseModel):
-    title: str
-    completed: bool = False
-    priority: str = "medium"
-
-
-class TodoUpdate(BaseModel):
-    title: str | None = None
-    completed: bool | None = None
-    priority: str | None = None
-
-
-class Todo(BaseModel):
-    id: int
-    title: str
-    completed: bool
-    priority: str
+__all__ = [
+    "Todo",
+    "TodoCreate",
+    "TodoUpdate",
+    "Task",
+    "TaskCreate",
+    "TaskUpdate",
+]

@@ -12,7 +12,7 @@
     async function loadTodos() {
         loading = true;
         try {
-            const response = await api.adminListTodos();
+            const response = await api.wwwListTodos();
             todos = response.data;
         } catch (error) {
             console.error('Failed to load todo:', error);
@@ -25,7 +25,7 @@
         if (!newTodoTitle.trim()) return;
 
         try {
-            const response = await api.adminCreateTodo({
+            const response = await api.wwwCreateTodo({
                 title: newTodoTitle,
                 completed: false
             });
@@ -38,7 +38,7 @@
 
     async function toggleTodo(todo: Todo) {
         try {
-            const response = await api.adminUpdateTodo(todo.id, {
+            const response = await api.wwwUpdateTodo(todo.id, {
                 completed: !todo.completed
             });
             todos = todos.map((t) => (t.id === todo.id ? response.data : t));
@@ -49,7 +49,7 @@
 
     async function removeTodo(id: number) {
         try {
-            await api.adminDeleteTodo(id);
+            await api.wwwDeleteTodo(id);
             todos = todos.filter((t) => t.id !== id);
         } catch (error) {
             console.error('Failed to delete todo:', error);
@@ -62,7 +62,7 @@
 </script>
 
 <div class="container">
-    <h1>Todo List admin</h1>
+    <h1>Todo List www</h1>
 
     <a class="button-link" href="/">Home</a>
     <a class="button-link" href="/task">Task</a>

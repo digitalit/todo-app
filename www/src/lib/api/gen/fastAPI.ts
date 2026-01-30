@@ -12,6 +12,9 @@ import type {
 } from 'axios';
 
 import type {
+  Task,
+  TaskCreate,
+  TaskUpdate,
   Todo,
   TodoCreate,
   TodoUpdate
@@ -29,64 +32,6 @@ const wwwHealth = <TData = AxiosResponse<unknown>>(
  ): Promise<TData> => {
     return axiosInstance.get(
       `http://localhost:8000/www/health`,options
-    );
-  }
-
-/**
- * @summary List Todos
- */
-const adminListTodos = <TData = AxiosResponse<Todo[]>>(
-     options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axiosInstance.get(
-      `http://localhost:8000/admin/todos`,options
-    );
-  }
-
-/**
- * @summary Create Todo
- */
-const adminCreateTodo = <TData = AxiosResponse<Todo>>(
-    todoCreate: TodoCreate, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axiosInstance.post(
-      `http://localhost:8000/admin/todos`,
-      todoCreate,options
-    );
-  }
-
-/**
- * @summary Get Todo
- */
-const adminGetTodo = <TData = AxiosResponse<Todo>>(
-    todoId: number, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axiosInstance.get(
-      `http://localhost:8000/admin/todos/${todoId}`,options
-    );
-  }
-
-/**
- * @summary Update Todo
- */
-const adminUpdateTodo = <TData = AxiosResponse<Todo>>(
-    todoId: number,
-    todoUpdate: TodoUpdate, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axiosInstance.put(
-      `http://localhost:8000/admin/todos/${todoId}`,
-      todoUpdate,options
-    );
-  }
-
-/**
- * @summary Delete Todo
- */
-const adminDeleteTodo = <TData = AxiosResponse<void>>(
-    todoId: number, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axiosInstance.delete(
-      `http://localhost:8000/admin/todos/${todoId}`,options
     );
   }
 
@@ -148,15 +93,73 @@ const wwwDeleteTodo = <TData = AxiosResponse<void>>(
     );
   }
 
-return {wwwHealth,adminListTodos,adminCreateTodo,adminGetTodo,adminUpdateTodo,adminDeleteTodo,wwwListTodos,wwwCreateTodo,wwwGetTodo,wwwUpdateTodo,wwwDeleteTodo}};
+/**
+ * @summary List Tasks
+ */
+const wwwListTasks = <TData = AxiosResponse<Task[]>>(
+     options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.get(
+      `http://localhost:8000/www/tasks`,options
+    );
+  }
+
+/**
+ * @summary Create Task
+ */
+const wwwCreateTask = <TData = AxiosResponse<Task>>(
+    taskCreate: TaskCreate, options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.post(
+      `http://localhost:8000/www/tasks`,
+      taskCreate,options
+    );
+  }
+
+/**
+ * @summary Get Task
+ */
+const wwwGetTask = <TData = AxiosResponse<Task>>(
+    taskId: number, options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.get(
+      `http://localhost:8000/www/tasks/${taskId}`,options
+    );
+  }
+
+/**
+ * @summary Update Task
+ */
+const wwwUpdateTask = <TData = AxiosResponse<Task>>(
+    taskId: number,
+    taskUpdate: TaskUpdate, options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.put(
+      `http://localhost:8000/www/tasks/${taskId}`,
+      taskUpdate,options
+    );
+  }
+
+/**
+ * @summary Delete Task
+ */
+const wwwDeleteTask = <TData = AxiosResponse<void>>(
+    taskId: number, options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.delete(
+      `http://localhost:8000/www/tasks/${taskId}`,options
+    );
+  }
+
+return {wwwHealth,wwwListTodos,wwwCreateTodo,wwwGetTodo,wwwUpdateTodo,wwwDeleteTodo,wwwListTasks,wwwCreateTask,wwwGetTask,wwwUpdateTask,wwwDeleteTask}};
 export type WwwHealthResult = AxiosResponse<unknown>
-export type AdminListTodosResult = AxiosResponse<Todo[]>
-export type AdminCreateTodoResult = AxiosResponse<Todo>
-export type AdminGetTodoResult = AxiosResponse<Todo>
-export type AdminUpdateTodoResult = AxiosResponse<Todo>
-export type AdminDeleteTodoResult = AxiosResponse<void>
 export type WwwListTodosResult = AxiosResponse<Todo[]>
 export type WwwCreateTodoResult = AxiosResponse<Todo>
 export type WwwGetTodoResult = AxiosResponse<Todo>
 export type WwwUpdateTodoResult = AxiosResponse<Todo>
 export type WwwDeleteTodoResult = AxiosResponse<void>
+export type WwwListTasksResult = AxiosResponse<Task[]>
+export type WwwCreateTaskResult = AxiosResponse<Task>
+export type WwwGetTaskResult = AxiosResponse<Task>
+export type WwwUpdateTaskResult = AxiosResponse<Task>
+export type WwwDeleteTaskResult = AxiosResponse<void>

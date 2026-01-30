@@ -12,6 +12,9 @@ import type {
 } from 'axios';
 
 import type {
+  Task,
+  TaskCreate,
+  TaskUpdate,
   Todo,
   TodoCreate,
   TodoUpdate
@@ -24,7 +27,7 @@ import type {
 /**
  * @summary Health
  */
-const wwwHealth = <TData = AxiosResponse<unknown>>(
+const adminHealth = <TData = AxiosResponse<unknown>>(
      options?: AxiosRequestConfig
  ): Promise<TData> => {
     return axiosInstance.get(
@@ -90,10 +93,73 @@ const adminDeleteTodo = <TData = AxiosResponse<void>>(
     );
   }
 
-return {wwwHealth,adminListTodos,adminCreateTodo,adminGetTodo,adminUpdateTodo,adminDeleteTodo}};
-export type WwwHealthResult = AxiosResponse<unknown>
+/**
+ * @summary List Tasks
+ */
+const adminListTasks = <TData = AxiosResponse<Task[]>>(
+     options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.get(
+      `http://localhost:8000/admin/tasks`,options
+    );
+  }
+
+/**
+ * @summary Create Task
+ */
+const adminCreateTask = <TData = AxiosResponse<Task>>(
+    taskCreate: TaskCreate, options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.post(
+      `http://localhost:8000/admin/tasks`,
+      taskCreate,options
+    );
+  }
+
+/**
+ * @summary Get Task
+ */
+const adminGetTask = <TData = AxiosResponse<Task>>(
+    taskId: number, options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.get(
+      `http://localhost:8000/admin/tasks/${taskId}`,options
+    );
+  }
+
+/**
+ * @summary Update Task
+ */
+const adminUpdateTask = <TData = AxiosResponse<Task>>(
+    taskId: number,
+    taskUpdate: TaskUpdate, options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.put(
+      `http://localhost:8000/admin/tasks/${taskId}`,
+      taskUpdate,options
+    );
+  }
+
+/**
+ * @summary Delete Task
+ */
+const adminDeleteTask = <TData = AxiosResponse<void>>(
+    taskId: number, options?: AxiosRequestConfig
+ ): Promise<TData> => {
+    return axiosInstance.delete(
+      `http://localhost:8000/admin/tasks/${taskId}`,options
+    );
+  }
+
+return {adminHealth,adminListTodos,adminCreateTodo,adminGetTodo,adminUpdateTodo,adminDeleteTodo,adminListTasks,adminCreateTask,adminGetTask,adminUpdateTask,adminDeleteTask}};
+export type AdminHealthResult = AxiosResponse<unknown>
 export type AdminListTodosResult = AxiosResponse<Todo[]>
 export type AdminCreateTodoResult = AxiosResponse<Todo>
 export type AdminGetTodoResult = AxiosResponse<Todo>
 export type AdminUpdateTodoResult = AxiosResponse<Todo>
 export type AdminDeleteTodoResult = AxiosResponse<void>
+export type AdminListTasksResult = AxiosResponse<Task[]>
+export type AdminCreateTaskResult = AxiosResponse<Task>
+export type AdminGetTaskResult = AxiosResponse<Task>
+export type AdminUpdateTaskResult = AxiosResponse<Task>
+export type AdminDeleteTaskResult = AxiosResponse<void>

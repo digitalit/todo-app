@@ -1,100 +1,15 @@
 <script lang="ts">
-    import {onMount} from 'svelte';
-    import {getFastAPI} from '$lib/api/gen/fastAPI';
-    import type {Todo} from '$lib/api/gen/model';
 
-    const api = getFastAPI();
-
-    let todos = $state<Todo[]>([]);
-    let newTodoTitle = $state('');
-    let loading = $state(false);
-
-    async function loadTodos() {
-        loading = true;
-        try {
-            const response = await api.wwwListTodos();
-            todos = response.data;
-        } catch (error) {
-            console.error('Failed to load todo:', error);
-        } finally {
-            loading = false;
-        }
-    }
-
-    async function addTodo() {
-        if (!newTodoTitle.trim()) return;
-
-        try {
-            const response = await api.wwwCreateTodo({
-                title: newTodoTitle,
-                completed: false
-            });
-            todos = [...todos, response.data];
-            newTodoTitle = '';
-        } catch (error) {
-            console.error('Failed to create todo:', error);
-        }
-    }
-
-    async function toggleTodo(todo: Todo) {
-        try {
-            const response = await api.wwwUpdateTodo(todo.id, {
-                completed: !todo.completed
-            });
-            todos = todos.map((t) => (t.id === todo.id ? response.data : t));
-        } catch (error) {
-            console.error('Failed to update todo:', error);
-        }
-    }
-
-    async function removeTodo(id: number) {
-        try {
-            await api.wwwDeleteTodo(id);
-            todos = todos.filter((t) => t.id !== id);
-        } catch (error) {
-            console.error('Failed to delete todo:', error);
-        }
-    }
-
-    onMount(() => {
-        loadTodos();
-    });
 </script>
 
 <div class="container">
-    <h1>Todo List www</h1>
+    <h1>Todos & Tasks www</h1>
 
     <div class="add-todo">
-        <input
-                type="text"
-                bind:value={newTodoTitle}
-                placeholder="What needs to be done?"
-                onkeydown={(e) => e.key === 'Enter' && addTodo()}
-        />
-        <button onclick={addTodo}>Add</button>
+        <a class="button-link" href="/todo">Todo</a>
+        <a class="button-link" href="/task">Task</a>
     </div>
 
-    {#if loading}
-        <p>Loading...</p>
-    {:else if todos.length === 0}
-        <p class="empty">No todos yet. Add one above!</p>
-    {:else}
-        <ul class="todo-list">
-            {#each todos as todo (todo.id)}
-                <li class:completed={todo.completed}>
-                    <input
-                            type="checkbox"
-                            checked={todo.completed}
-                            onchange={() => toggleTodo(todo)}
-                    />
-                    <span>{todo.title}</span>
-                    <button class="delete" onclick={() => removeTodo(todo.id)}>
-                        ×
-                    </button>
-                </li>
-            {/each}
-        </ul>
-    {/if}
 </div>
 
 <style>

@@ -3,7 +3,7 @@
 </script>
 
 <div class="container">
-    <h1>Todos & Tasks</h1>
+    <h1>Todos & Tasks admin</h1>
 
     <div class="add-todo">
         <a class="button-link" href="/todo">Todo</a>

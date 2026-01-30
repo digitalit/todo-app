@@ -6,6 +6,9 @@
  */
 
 export * from './hTTPValidationError';
+export * from './task';
+export * from './taskCreate';
+export * from './taskUpdate';
 export * from './todo';
 export * from './todoCreate';
 export * from './todoUpdate';

@@ -1,19 +1,19 @@
 <script lang="ts">
     import {onMount} from 'svelte';
     import {getFastAPI} from '$lib/api/gen/fastAPI';
-    import type {Todo} from '$lib/api/gen/model';
+    import type {Task} from '$lib/api/gen/model';
 
     const api = getFastAPI();
 
-    let todos = $state<Todo[]>([]);
-    let newTodoTitle = $state('');
+    let tasks = $state<Task[]>([]);
+    let newTaskTitle = $state('');
     let loading = $state(false);
 
-    async function loadTodos() {
+    async function loadTasks() {
         loading = true;
         try {
-            const response = await api.adminListTodos();
-            todos = response.data;
+            const response = await api.adminListTasks();
+            tasks = response.data;
         } catch (error) {
             console.error('Failed to load todo:', error);
         } finally {
@@ -21,76 +21,77 @@
         }
     }
 
-    async function addTodo() {
-        if (!newTodoTitle.trim()) return;
+    async function addTask() {
+        if (!newTaskTitle.trim()) return;
 
         try {
-            const response = await api.adminCreateTodo({
-                title: newTodoTitle,
+            const response = await api.adminCreateTask({
+                title: newTaskTitle,
                 completed: false
             });
-            todos = [...todos, response.data];
-            newTodoTitle = '';
+            tasks = [...tasks, response.data];
+            newTaskTitle = '';
         } catch (error) {
-            console.error('Failed to create todo:', error);
+            console.error('Failed to create task:', error);
         }
     }
 
-    async function toggleTodo(todo: Todo) {
+    async function toggleTask(task: Task) {
         try {
-            const response = await api.adminUpdateTodo(todo.id, {
-                completed: !todo.completed
+            const response = await api.adminUpdateTask(task.id, {
+                completed: !task.completed
             });
-            todos = todos.map((t) => (t.id === todo.id ? response.data : t));
+            tasks = tasks.map((t) => (t.id === task.id ? response.data : t));
         } catch (error) {
-            console.error('Failed to update todo:', error);
+            console.error('Failed to update task:', error);
         }
     }
 
-    async function removeTodo(id: number) {
+    async function removeTask(id: number) {
         try {
-            await api.adminDeleteTodo(id);
-            todos = todos.filter((t) => t.id !== id);
+            await api.adminDeleteTask(id);
+            tasks = tasks.filter((t) => t.id !== id);
         } catch (error) {
-            console.error('Failed to delete todo:', error);
+            console.error('Failed to delete task:', error);
         }
     }
 
     onMount(() => {
-        loadTodos();
+        loadTasks();
     });
 </script>
 
 <div class="container">
     <h1>Task List admin</h1>
 
-    <div class="add-todo">
-        <a class="button-link" href="/">Home</a>
-        <a class="button-link" href="/todo">Todo</a>
+    <a class="button-link" href="/">Home</a>
+    <a class="button-link" href="/todo">Todo</a>
+    <br>
+    <div class="add-task">
         <input
                 type="text"
-                bind:value={newTodoTitle}
+                bind:value={newTaskTitle}
                 placeholder="What needs to be done?"
-                onkeydown={(e) => e.key === 'Enter' && addTodo()}
+                onkeydown={(e) => e.key === 'Enter' && addTask()}
         />
-        <button onclick={addTodo}>Add</button>
+        <button onclick={addTask}>Add</button>
     </div>
 
     {#if loading}
         <p>Loading...</p>
-    {:else if todos.length === 0}
-        <p class="empty">No todos yet. Add one above!</p>
+    {:else if tasks.length === 0}
+        <p class="empty">No tasks yet. Add one above!</p>
     {:else}
-        <ul class="todo-list">
-            {#each todos as todo (todo.id)}
-                <li class:completed={todo.completed}>
+        <ul class="task-list">
+            {#each tasks as task (task.id)}
+                <li class:completed={task.completed}>
                     <input
                             type="checkbox"
-                            checked={todo.completed}
-                            onchange={() => toggleTodo(todo)}
+                            checked={task.completed}
+                            onchange={() => toggleTask(task)}
                     />
-                    <span>{todo.title}</span>
-                    <button class="delete" onclick={() => removeTodo(todo.id)}>
+                    <span>{task.title}</span>
+                    <button class="delete" onclick={() => removeTask(task.id)}>
                         ×
                     </button>
                 </li>
@@ -111,7 +112,7 @@
         color: #333;
     }
 
-    .add-todo {
+    .add-task {
         display: flex;
         gap: 0.5rem;
         margin: 2rem 0;
@@ -139,12 +140,12 @@
         background: #0056b3;
     }
 
-    .todo-list {
+    .task-list {
         list-style: none;
         padding: 0;
     }
 
-    .todo-list li {
+    .task-list li {
         display: flex;
         align-items: center;
         gap: 1rem;
@@ -152,11 +153,11 @@
         border-bottom: 1px solid #eee;
     }
 
-    .todo-list li span {
+    .task-list li span {
         flex: 1;
     }
 
-    .todo-list li.completed span {
+    .task-list li.completed span {
         text-decoration: line-through;
         color: #999;
     }

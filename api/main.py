@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.admin.routes import router as admin_router
+
 from api.www.routes import router as www_router
 
 app = FastAPI()
